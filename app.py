@@ -81,9 +81,7 @@ if sel_dist and "district_code" in f.columns:
 if q:
     name_cols = [c for c in ["stop_name", "fullName"] if c in f.columns]
     if name_cols:
-        mask = False
-        for c in name_cols:
-            mask = mask | f[c].str.contains(q, case=False, na=False)
+        mask = f[name_cols].apply(lambda s: s.str.contains(q, case=False, na=False)).any(axis=1)
         f = f[mask]
 
 # URL pro sdílení stejného filtru
